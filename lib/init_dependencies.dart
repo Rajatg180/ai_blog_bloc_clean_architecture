@@ -1,6 +1,7 @@
 import 'package:ai_blog/features/auth/data/datasources/auth_remote_data_sorce.dart';
 import 'package:ai_blog/features/auth/data/repositories/auth_respository_impl.dart';
 import 'package:ai_blog/features/auth/domain/repository/auth_repository.dart';
+import 'package:ai_blog/features/auth/domain/usecase/user_sign_in.dart';
 import 'package:ai_blog/features/auth/domain/usecase/user_sign_up.dart';
 import 'package:ai_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -33,8 +34,13 @@ void _initAuth()
     () => UserSignUp(serviveLocator()),
   );
 
+  serviveLocator.registerFactory(
+    () => UserLogin(serviveLocator()),
+  );
+
   // ONLY ONE INSTANCE OF THE Auth BLOC IS CREATED because to persist the state of the user
   serviveLocator.registerLazySingleton(
-    () => AuthBloc(userSignUp: serviveLocator()),
+    () => AuthBloc(userSignUp: serviveLocator(), userLogin: serviveLocator()),
   );
+  
 }

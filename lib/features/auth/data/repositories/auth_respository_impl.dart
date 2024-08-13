@@ -1,6 +1,7 @@
 import 'package:ai_blog/core/error/exception.dart';
 import 'package:ai_blog/core/error/failures.dart';
 import 'package:ai_blog/features/auth/data/datasources/auth_remote_data_sorce.dart';
+import 'package:ai_blog/features/auth/data/model/user_model.dart';
 import 'package:ai_blog/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -15,28 +16,27 @@ class AuthRepositoryImpl implements AuthRepository{
   const AuthRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure,String>> signUpWithEmailPassword({
+  Future<Either<Failure,UserModel>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
   })async{
     try{
-      print("AuthRepositoryImpl");
-      final userId = await  remoteDataSource.signUpWithEmailPassword(name: name, email: email, password: password);
-      return Right(userId);
+      UserModel user = await  remoteDataSource.signUpWithEmailPassword(name: name, email: email, password: password);
+      return Right(user);
     }on ServerException catch(e){
       return Left(Failure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure,String>> loginWithWithEmailPassword({
+  Future<Either<Failure,UserModel>> loginWithWithEmailPassword({
     required String email,
     required String password,
   })async{
     try{
-      final userId = await  remoteDataSource.loginWithWithEmailPassword(email: email, password: password);
-      return Right(userId);
+      final user = await  remoteDataSource.loginWithWithEmailPassword(email: email, password: password);
+      return Right(user);
     }on ServerException catch(e){
       return Left(Failure(e.message));
     }
