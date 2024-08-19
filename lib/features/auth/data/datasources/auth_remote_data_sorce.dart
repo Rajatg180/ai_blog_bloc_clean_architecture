@@ -4,6 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract interface class AuthRemoteDataSource {
+
+  // getter for getting the usertoken 
+  Future<String?> get userToken; 
+
   // method to sign up with email and password
   Future<UserModel> signUpWithEmailPassword({
     required String name,
@@ -16,18 +20,29 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  // method to geting the current user
+  Future<UserModel?> getUserCurrentData();
+  
 }
+
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl();
 
+
+  // getting the user token
+  @override
+  Future<String?> get userToken async => await FirebaseAuth.instance.currentUser?.getIdToken();
+
+  
   @override
   Future<UserModel> loginWithWithEmailPassword({
     required String email,
     required String password,
   }) async {
-    try{
+    try{ 
 
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -37,6 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       print(userCredential.user!);
 
       User? firebaseUser = userCredential.user;
+
 
       // Fetch user details from Firestore
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -56,6 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+
   @override
   Future<UserModel> signUpWithEmailPassword({
     required String name,
@@ -70,8 +87,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             email: email,
             password: password,
           );
-
-      print(userCredential.user!.uid);
 
       // Create a UserModel instance
       UserModel userModel = UserModel(
@@ -93,4 +108,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
     
   }
+
+  // geting the currentUser and persist the state of user
+  @override
+  Future<UserModel?> getUserCurrentData() async {
+
+    try{
+
+      User? firebaseUser = FirebaseAuth.instance.currentUser;
+
+      if(firebaseUser!=null){
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get();
+
+        if(userDoc.exists){
+          UserModel userModel = UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
+          print("user found");
+          return userModel;
+        }
+        else{
+          print("user not found");
+          throw ServerException("User not found");
+        }
+      }
+      else{
+        print("no user is currenlty signed in");
+        throw ServerException("No user is currently signed in ");
+      }
+
+    }
+    catch(e){
+      print("error in fetching the current user data");
+      throw ServerException(e.toString());
+    }
+  }
+
+  
 }

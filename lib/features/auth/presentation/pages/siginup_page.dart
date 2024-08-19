@@ -5,10 +5,12 @@ import 'package:ai_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ai_blog/features/auth/presentation/pages/login_page.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:ai_blog/features/blog/presentation/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
+  
   // route method is used to navigate to the LoginPage
   static route() => MaterialPageRoute(
         builder: (context) => const LoginPage(),
@@ -21,6 +23,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
@@ -49,6 +52,12 @@ class _SignUpPageState extends State<SignUpPage> {
             listener: (context, state) {
               if(state is AuthFailure){
                 showSnackBar(context, state.message);
+              }
+              if(state is AuthSuccess){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+                );
               }
             },
             // builder is used to update ui based on state
@@ -94,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             context.read<AuthBloc>().add(AuthSignUp(
                                 email: emailController.text.trim(),
                                 password: passwordController.text.trim(),
-                                name: nameController.text.trim()));
+                                name: nameController.text.trim(),),);
                           }
                         },
                       ),

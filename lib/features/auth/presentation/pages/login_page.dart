@@ -5,10 +5,12 @@ import 'package:ai_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ai_blog/features/auth/presentation/pages/siginup_page.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:ai_blog/features/blog/presentation/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
+
   static route() => MaterialPageRoute(
         builder: (context) => const SignUpPage(),
       );
@@ -42,6 +44,12 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if(state is AuthFailure){
                 showSnackBar(context, state.message);
+            }
+            if(state is AuthSuccess){
+              Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+              );
             }
           },
           builder: (context, state) {

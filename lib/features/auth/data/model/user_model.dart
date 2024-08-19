@@ -1,4 +1,4 @@
-import "package:ai_blog/features/auth/domain/entities/user.dart";
+import "package:ai_blog/core/common/entities/user.dart";
 
 class UserModel extends User {
 
