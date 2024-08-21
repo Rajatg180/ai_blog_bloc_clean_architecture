@@ -25,6 +25,12 @@ class AppTheme {
       backgroundColor: AppPallete.backgroundColor,
       elevation: 0,
     ),
+    chipTheme: const ChipThemeData(
+      color: MaterialStatePropertyAll(
+        AppPallete.backgroundColor,
+      ),
+      side: BorderSide.none,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: const EdgeInsets.all(27),
       enabledBorder: _border(),

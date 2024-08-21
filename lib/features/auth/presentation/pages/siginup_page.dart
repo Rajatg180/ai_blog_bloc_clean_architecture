@@ -5,7 +5,7 @@ import 'package:ai_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ai_blog/features/auth/presentation/pages/login_page.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_field.dart';
 import 'package:ai_blog/features/auth/presentation/widgets/auth_gradient_button.dart';
-import 'package:ai_blog/features/blog/presentation/home_page.dart';
+import 'package:ai_blog/features/blog/presentation/Pages/blog_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,8 +54,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 showSnackBar(context, state.message);
               }
               if(state is AuthSuccess){
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) => const BlogPage(),
                   ),
                 );
               }
@@ -100,10 +100,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             // call the signup method
-                            context.read<AuthBloc>().add(AuthSignUp(
+                            context.read<AuthBloc>().add(
+                              AuthSignUp(
                                 email: emailController.text.trim(),
                                 password: passwordController.text.trim(),
-                                name: nameController.text.trim(),),);
+                                name: nameController.text.trim(),
+                              ),
+                            );
                           }
                         },
                       ),
