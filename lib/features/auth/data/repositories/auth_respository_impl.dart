@@ -2,7 +2,6 @@ import 'package:ai_blog/core/error/exception.dart';
 import 'package:ai_blog/core/error/failures.dart';
 import 'package:ai_blog/features/auth/data/datasources/auth_remote_data_sorce.dart';
 import 'package:ai_blog/features/auth/data/model/user_model.dart';
-import 'package:ai_blog/core/common/entities/user.dart';
 import 'package:ai_blog/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 

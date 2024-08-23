@@ -2,6 +2,7 @@ import 'package:ai_blog/core/error/failures.dart';
 import 'package:ai_blog/core/usecase/usecase.dart';
 import 'package:ai_blog/core/common/entities/user.dart';
 import 'package:ai_blog/features/auth/domain/repository/auth_repository.dart';
+// ignore: implementation_imports
 import 'package:fpdart/src/either.dart';
 
 class CurrentUser implements UseCase<User,NoParams>{

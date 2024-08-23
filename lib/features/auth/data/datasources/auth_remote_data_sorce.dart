@@ -31,7 +31,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl();
 
-
   // getting the user token
   @override
   Future<String?> get userToken async => await FirebaseAuth.instance.currentUser?.getIdToken();
