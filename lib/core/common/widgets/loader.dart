@@ -1,3 +1,4 @@
+import 'package:ai_blog/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 
 class Loader extends StatelessWidget {
@@ -6,7 +7,7 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(strokeWidth: 2,color:   AppPallete.gradient1,)
     );
   }
 }

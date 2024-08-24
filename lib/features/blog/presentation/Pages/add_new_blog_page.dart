@@ -56,12 +56,11 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   }
 
   void uploadBlog() {
-
     if (formKey.currentState!.validate() &&
         seletedTopics.isNotEmpty &&
         image != null) {
-
-      final posterId = (context.read<AppUserCubit>().state as AppUserLoggedIn).user.uid;
+      final posterId =
+          (context.read<AppUserCubit>().state as AppUserLoggedIn).user.uid;
 
       context.read<BlogBloc>().add(
             BlogUpload(
@@ -76,21 +75,19 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   }
 
   Future<void> fetchBlogDescription(String description) async {
+    setState(() {
+      _isFetchingData = true;
+    });
 
-      setState(() {
-        _isFetchingData = true;
-      });
+    final response = await _chat.sendMessage(Content.text(description));
 
-      final response = await _chat.sendMessage(Content.text(description));
+    setState(() {
+      _isFetchingData = false;
+    });
 
-      setState(() {
-        _isFetchingData = false;
-      });
+    contentController.text = response.text.toString();
 
-      contentController.text = response.text.toString();
-
-      descriptionController.clear();
-    
+    descriptionController.clear();
   }
 
   void showAIDialog() {
@@ -113,9 +110,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  
                   if (aiFormKey.currentState!.validate()) {
-
                     Navigator.of(context).pop();
 
                     String description =
@@ -167,25 +162,12 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           }
         },
         builder: (context, state) {
-          
           if (state is BlogLoading) {
             return const Loader();
           }
           return Stack(
             children: [
-              (_isFetchingData)
-                  ? Positioned.fill(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.1),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SingleChildScrollView(
+              SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -298,10 +280,36 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                                   ),
                                   (_isFetchingData)
                                       ? const Loader()
-                                      : IconButton(
-                                          onPressed: showAIDialog,
-                                          icon: const Icon(
-                                              Icons.smart_toy_outlined),
+                                      : GestureDetector(
+                                          onTap: showAIDialog,
+                                          child: Container(
+                                            margin: const EdgeInsets.all(5),
+                                            padding: const EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              gradient: const LinearGradient(
+                                                colors: [
+                                                  AppPallete.gradient1,
+                                                  AppPallete.gradient2,
+                                                  AppPallete.gradient3,
+                                                ],
+                                                begin: Alignment.bottomLeft,
+                                                end: Alignment.topRight,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                            child: const Row(
+                                              children: [
+                                                Text("AI  "),
+                                                Icon(Icons.smart_toy_outlined),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                 ],
                               ),

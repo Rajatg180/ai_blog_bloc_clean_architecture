@@ -63,7 +63,7 @@ class BlogRemoteDataSourceImpl extends BlogRemoteDataSource {
 
       return downloadURL;
     } catch (e) {
-      print("error while uip;oading image");
+      print("error while uploading image");
       throw ServerException(e.toString());
     }
   }
