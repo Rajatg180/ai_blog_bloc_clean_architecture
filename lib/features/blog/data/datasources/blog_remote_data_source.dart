@@ -22,10 +22,12 @@ abstract interface class BlogRemoteDataSource {
   // Future<BlogModel> updateBlog(BlogModel blog);
 
   // method to delete a blog
-  // Future<void> deleteBlog(String id);
+  Future<void> deleteBlog(String id);
 }
 
+
 class BlogRemoteDataSourceImpl extends BlogRemoteDataSource {
+
   @override
   Future<BlogModel> uploadBlog(BlogModel blog) async {
     try {
@@ -105,17 +107,14 @@ class BlogRemoteDataSourceImpl extends BlogRemoteDataSource {
     }
   }
 
-  // @override
-  // Future<BlogModel> getBlogById(String id) async {
-  //   try {
-  //     // code to get blog by id from the server
-  //     DocumentSnapshot docSnap =
-  //         await FirebaseFirestore.instance.collection('blogs').doc(id).get();
-
-  //     return BlogModel.fromJson(docSnap.data() as Map<String, dynamic>);
-  //   } catch (e) {
-  //     throw ServerException(e.toString());
-  //   }
-  // }
+  @override
+  Future<void> deleteBlog(String id) async {
+    try {
+      await FirebaseFirestore.instance.collection('blogs').doc(id).delete();
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+  
   
 }

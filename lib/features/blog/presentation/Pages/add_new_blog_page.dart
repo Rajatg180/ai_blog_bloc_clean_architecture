@@ -11,6 +11,7 @@ import 'package:ai_blog/features/blog/presentation/Widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AddNewBlogPage extends StatefulWidget {
@@ -56,6 +57,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   }
 
   void uploadBlog() {
+    
     if (formKey.currentState!.validate() &&
         seletedTopics.isNotEmpty &&
         image != null) {
@@ -108,8 +110,8 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
               ],
             ),
             actions: [
-              ElevatedButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   if (aiFormKey.currentState!.validate()) {
                     Navigator.of(context).pop();
 
@@ -119,7 +121,23 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                     fetchBlogDescription(description);
                   }
                 },
-                child: const Text("Generate content"),
+                child: Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppPallete.gradient1,
+                        AppPallete.gradient2,
+                        AppPallete.gradient3,
+                      ],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text("Generate content"),
+                ),
               ),
             ],
           ),
@@ -168,170 +186,163 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           return Stack(
             children: [
               SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              (image != null)
-                                  ? GestureDetector(
-                                      onTap: selectImage,
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        height: 150,
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.file(
-                                            image!,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: selectImage,
-                                      child: DottedBorder(
-                                        color: Colors.grey,
-                                        dashPattern: const [10, 4],
-                                        radius: const Radius.circular(10),
-                                        borderType: BorderType.RRect,
-                                        strokeCap: StrokeCap.round,
-                                        child: const SizedBox(
-                                          height: 150,
-                                          width: double.infinity,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.folder_open,
-                                                size: 40,
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                'Select your image',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        (image != null)
+                            ? GestureDetector(
+                                onTap: selectImage,
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: 150,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
                                     ),
-                              const SizedBox(
-                                height: 20,
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: selectImage,
+                                child: DottedBorder(
+                                  color: Colors.grey,
+                                  dashPattern: const [10, 4],
+                                  radius: const Radius.circular(10),
+                                  borderType: BorderType.RRect,
+                                  strokeCap: StrokeCap.round,
+                                  child: const SizedBox(
+                                    height: 150,
+                                    width: double.infinity,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.folder_open,
+                                          size: 40,
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          'Select your image',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: const BouncingScrollPhysics(),
-                                      child: Row(
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                child: Row(
+                                  children: [
+                                    'Technology',
+                                    'Business',
+                                    'Programming',
+                                    'Entertainment',
+                                  ]
+                                      .map(
+                                        (e) => Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (seletedTopics.contains(e)) {
+                                                seletedTopics.remove(e);
+                                              } else {
+                                                seletedTopics.add(e);
+                                              }
+                                              setState(() {});
+                                            },
+                                            child: Chip(
+                                              label: Text(e),
+                                              color: seletedTopics.contains(e)
+                                                  ? const WidgetStatePropertyAll(
+                                                      AppPallete.gradient1)
+                                                  : null,
+                                              side: seletedTopics.contains(e)
+                                                  ? null
+                                                  : const BorderSide(
+                                                      color: AppPallete
+                                                          .borderColor,
+                                                    ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                            (_isFetchingData)
+                                ? const Loader()
+                                : GestureDetector(
+                                    onTap: showAIDialog,
+                                    child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                        right: 10,
+                                        top: 10,
+                                        bottom: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [
+                                            AppPallete.gradient1,
+                                            AppPallete.gradient2,
+                                            AppPallete.gradient3,
+                                          ],
+                                          begin: Alignment.bottomLeft,
+                                          end: Alignment.topRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: const Row(
                                         children: [
-                                          'Technology',
-                                          'Business',
-                                          'Programming',
-                                          'Entertainment',
-                                        ]
-                                            .map(
-                                              (e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    if (seletedTopics
-                                                        .contains(e)) {
-                                                      seletedTopics.remove(e);
-                                                    } else {
-                                                      seletedTopics.add(e);
-                                                    }
-                                                    setState(() {});
-                                                  },
-                                                  child: Chip(
-                                                    label: Text(e),
-                                                    color: seletedTopics
-                                                            .contains(e)
-                                                        ? const WidgetStatePropertyAll(
-                                                            AppPallete
-                                                                .gradient1)
-                                                        : null,
-                                                    side: seletedTopics
-                                                            .contains(e)
-                                                        ? null
-                                                        : const BorderSide(
-                                                            color: AppPallete
-                                                                .borderColor,
-                                                          ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
+                                          Text("AI  "),
+                                          Icon(Icons.smart_toy_outlined),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  (_isFetchingData)
-                                      ? const Loader()
-                                      : GestureDetector(
-                                          onTap: showAIDialog,
-                                          child: Container(
-                                            margin: const EdgeInsets.all(5),
-                                            padding: const EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 10,
-                                              bottom: 10,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              gradient: const LinearGradient(
-                                                colors: [
-                                                  AppPallete.gradient1,
-                                                  AppPallete.gradient2,
-                                                  AppPallete.gradient3,
-                                                ],
-                                                begin: Alignment.bottomLeft,
-                                                end: Alignment.topRight,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(7),
-                                            ),
-                                            child: const Row(
-                                              children: [
-                                                Text("AI  "),
-                                                Icon(Icons.smart_toy_outlined),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              BlogEditor(
-                                controller: titleController,
-                                hintText: 'Blog Title',
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              BlogEditor(
-                                controller: contentController,
-                                hintText: 'Blog Content',
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
-                      ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        BlogEditor(
+                          controller: titleController,
+                          hintText: 'Blog Title',
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlogEditor(
+                          controller: contentController,
+                          hintText: 'Blog Content',
+                        ),
+                      ],
                     ),
+                  ),
+                ),
+              ),
             ],
           );
         },

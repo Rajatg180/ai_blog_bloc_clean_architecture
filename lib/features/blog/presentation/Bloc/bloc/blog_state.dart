@@ -27,3 +27,5 @@ final class BlogsDisplaySuccess extends BlogState{
   
 
 }
+
+final class BlogDeleteSuccess extends BlogState{}

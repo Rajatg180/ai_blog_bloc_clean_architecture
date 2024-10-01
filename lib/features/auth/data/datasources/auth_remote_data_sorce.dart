@@ -23,6 +23,8 @@ abstract interface class AuthRemoteDataSource {
 
   // method to geting the current user
   Future<UserModel?> getUserCurrentData();
+
+  Future<void> signOut();
   
 }
 
@@ -140,6 +142,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
     catch(e){
       print("error in fetching the current user data");
+      throw ServerException(e.toString());
+    }
+  }
+
+
+  @override
+  Future<void> signOut() async {
+    try{
+      await FirebaseAuth.instance.signOut();
+    }catch(e){
+      print("error while signing out");
       throw ServerException(e.toString());
     }
   }

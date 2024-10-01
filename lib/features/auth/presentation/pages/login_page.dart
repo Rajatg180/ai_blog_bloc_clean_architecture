@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
-
   static route() => MaterialPageRoute(
         builder: (context) => const SignUpPage(),
       );
@@ -42,13 +41,15 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(15.0),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if(state is AuthFailure){
-                showSnackBar(context, state.message);
+            if (state is AuthFailure) {
+              showSnackBar(context, state.message);
             }
-            if(state is AuthSuccess){
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => const BlogPage(),
-                  ),
+            if (state is AuthSuccess) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BlogPage(),
+                ),
               );
             }
           },
@@ -79,18 +80,17 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   if (state is AuthLoading)
-                      const Loader() 
+                    const Loader()
                   else
-                  AuthGradientButton(
-                      buttonText: 'Sign In',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          context.read<AuthBloc>().add(AuthLogin(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim()));
-                        }
-                      }
-                  ),
+                    AuthGradientButton(
+                        buttonText: 'Sign In',
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(AuthLogin(
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim()));
+                          }
+                        }),
                   const SizedBox(
                     height: 20,
                   ),

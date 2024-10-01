@@ -4,6 +4,7 @@ import 'package:ai_blog/core/utils/show_snackbar.dart';
 import 'package:ai_blog/features/blog/presentation/Bloc/bloc/blog_bloc.dart';
 import 'package:ai_blog/features/blog/presentation/Pages/add_new_blog_page.dart';
 import 'package:ai_blog/features/blog/presentation/Widgets/blog_card.dart';
+import 'package:ai_blog/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,6 @@ class BlogPage extends StatefulWidget {
 }
 
 class _BlogPageState extends State<BlogPage> {
-
   @override
   void initState() {
     super.initState();
@@ -28,9 +28,28 @@ class _BlogPageState extends State<BlogPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(
-          child: Text('Blog App'),
+          child: Text(
+            'Blogs',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfileScreen(),
+                ),
+              );
+            },
+            icon: const Icon(
+              CupertinoIcons.profile_circled,
+            ),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -47,14 +66,12 @@ class _BlogPageState extends State<BlogPage> {
         ],
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
-
         listener: (context, state) {
           if (state is BlogFailure) {
             showSnackBar(context, state.error);
           }
         },
         builder: (context, state) {
-
           if (state is BlogLoading) {
             return const Loader();
           }
@@ -64,7 +81,14 @@ class _BlogPageState extends State<BlogPage> {
               physics: const BouncingScrollPhysics(),
               itemCount: state.blogs.length,
               itemBuilder: (context, index) {
-                return BlogCard(blog: state.blogs[index],color: (index % 3 == 0) ? AppPallete.gradient1 : (index%3==1) ? AppPallete.gradient2 : AppPallete.gradient3,);
+                return BlogCard(
+                  blog: state.blogs[index],
+                  color: (index % 3 == 0)
+                      ? AppPallete.gradient1
+                      : (index % 3 == 1)
+                          ? AppPallete.gradient2
+                          : AppPallete.gradient3,
+                );
               },
             );
           }

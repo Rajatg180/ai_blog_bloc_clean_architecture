@@ -41,7 +41,7 @@ class BlogCard extends StatelessWidget {
                     children: blog.topics
                         .map(
                           (e) => Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.only(top: 5,bottom: 5,left: 5),
                             child: Chip(label: Text(e)),
                           ),
                         )
@@ -51,13 +51,13 @@ class BlogCard extends StatelessWidget {
                 Text(
                   blog.title,
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            Text('${calculateReadingTime(blog.content)} min'),
+            Text('${calculateReadingTime(blog.content)} min read'),
           ],
         ),
       ),

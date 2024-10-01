@@ -4,8 +4,13 @@ import 'package:ai_blog/core/theme/app_pallete.dart';
 import 'package:ai_blog/core/utils/calculate_reading_time.dart';
 import 'package:ai_blog/core/utils/format_date.dart';
 import 'package:ai_blog/features/blog/domain/entities/blog.dart';
+import 'package:ai_blog/features/blog/presentation/Bloc/bloc/blog_bloc.dart';
+import 'package:ai_blog/features/blog/presentation/Pages/blog_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:ai_blog/core/common/cubits/app_user/app_user_cubit.dart';
 
 class BlogViewerPage extends StatefulWidget {
   static route(Blog blog) => MaterialPageRoute(
@@ -77,6 +82,28 @@ class _BlogViewerPageState extends State<BlogViewerPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          BlocBuilder<AppUserCubit, AppUserState>(
+            builder: (context, state) {
+              if (state is AppUserLoggedIn &&
+                  state.user.uid == widget.blog.posterId) {
+                return IconButton(
+                  onPressed: () {
+                    context.read<BlogBloc>().add(
+                          DeleteBlogId(id: widget.blog.id),
+                        );
+
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BlogPage(),
+                        ));
+                  },
+                  icon: const Icon(Icons.delete),
+                );
+              }
+              return Container();
+            },
+          ),
           IconButton(
             onPressed: _isFetchingSummary
                 ? null
@@ -86,19 +113,21 @@ class _BlogViewerPageState extends State<BlogViewerPage> {
                 : Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(left: 15, right: 15,top: 10,bottom: 10),
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, top: 10, bottom: 10),
                         decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                AppPallete.gradient1,
-                                AppPallete.gradient2,
-                                AppPallete.gradient3,
-                              ],
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                            ),
-                            borderRadius: BorderRadius.circular(7),),
-                        child: const  Text("Blog Summary"),
+                          gradient: const LinearGradient(
+                            colors: [
+                              AppPallete.gradient1,
+                              AppPallete.gradient2,
+                              AppPallete.gradient3,
+                            ],
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: const Text("Blog Summary"),
                       ),
                     ],
                   ),
@@ -107,6 +136,7 @@ class _BlogViewerPageState extends State<BlogViewerPage> {
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

@@ -24,5 +24,8 @@ abstract interface class AuthRepository {
 
   // method to get the current user
   Future<Either<Failure,User>> getUserCurrentData();
+
+  // method to sign out
+  Future<Either<Failure,void>> signOut();
   
 }

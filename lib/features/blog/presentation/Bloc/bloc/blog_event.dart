@@ -17,3 +17,12 @@ final class BlogUpload extends BlogEvent {
 
 
 final class FetchAllBlog extends BlogEvent{}
+
+
+final class DeleteBlogId extends BlogEvent{
+
+  final String id;
+
+  DeleteBlogId({required this.id});
+
+}

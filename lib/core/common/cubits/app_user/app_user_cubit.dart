@@ -19,4 +19,8 @@ class AppUserCubit extends Cubit<AppUserState> {
 
   }
 
+  void logout(){
+    emit(AppUserInitial());
+  }
+
 }

@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
+
+  // await dotenv.load(fileName: ".env");
+  
   WidgetsFlutterBinding.ensureInitialized();
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,9 @@ void main() async {
 
   runApp(
     MultiBlocProvider(
+
       providers: [
+        
         // BlocProvider(
         //   create: (context) => AuthBloc(
         //     userSignUp: UserSignUp(

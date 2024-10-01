@@ -3,6 +3,7 @@
 // the UserModel class is used to convert the data from the firestore to the user class
 
 class User{
+  
   final String uid;
   final String email;
   final String userName;
