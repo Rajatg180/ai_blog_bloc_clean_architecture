@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:ai_blog/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:ai_blog/core/common/widgets/loader.dart';
+import 'package:ai_blog/core/secrets/app_secrets.dart';
 import 'package:ai_blog/core/theme/app_pallete.dart';
 import 'package:ai_blog/core/utils/pick_image.dart';
 import 'package:ai_blog/core/utils/show_snackbar.dart';
@@ -40,7 +41,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   @override
   void initState() {
     _model = GenerativeModel(
-        model: 'gemini-pro', apiKey: "AIzaSyCI-BViPUvEpgYt9QJ4-YUuDzOVHNjL8yI");
+        model: 'gemini-pro', apiKey: AppSecrets.aiKey);
     _chat = _model.startChat();
     super.initState();
   }
@@ -57,7 +58,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   }
 
   void uploadBlog() {
-    
+
     if (formKey.currentState!.validate() &&
         seletedTopics.isNotEmpty &&
         image != null) {
