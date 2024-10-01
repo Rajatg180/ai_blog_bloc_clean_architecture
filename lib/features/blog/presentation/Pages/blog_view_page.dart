@@ -8,7 +8,6 @@ import 'package:ai_blog/features/blog/presentation/Bloc/bloc/blog_bloc.dart';
 import 'package:ai_blog/features/blog/presentation/Pages/blog_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:ai_blog/core/common/cubits/app_user/app_user_cubit.dart';
 
