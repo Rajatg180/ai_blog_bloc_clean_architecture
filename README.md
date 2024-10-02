@@ -37,4 +37,18 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/your-username/blog-app.git
-   cd blog-app
+   cd Breadcrumbsai_blog_bloc_clean_architecture
+
+2. Add your AI key
+
+### ScreenShorts
+
+
+<img src="https://github.com/user-attachments/assets/2efd289f-1f48-4d71-a3f6-31504dbacf5b" width="300" height="600"> 
+<img src="https://github.com/user-attachments/assets/cc7e6818-fb34-465c-957d-912afa9eaab7" width="300" height="600"> 
+<img src="https://github.com/user-attachments/assets/37f024bc-0219-43b9-bd24-830b8607a031" width="300" height="600">
+<img src="https://github.com/user-attachments/assets/eece73b4-1556-4d29-8c6f-acdebfc1b913" width="300" height="600"> 
+<img src="https://github.com/user-attachments/assets/09f6532e-7d6d-4878-b261-471dafbe9e01" width="300" height="600"> 
+<img src="https://github.com/user-attachments/assets/77c91d42-b597-4af9-8c6f-a647ddbce7bf" width="300" height="600"> 
+
+
