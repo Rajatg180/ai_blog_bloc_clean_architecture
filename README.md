@@ -18,6 +18,7 @@ This full-stack blog application is developed using **Flutter** and integrates A
 - **AI API**: For generating blog content and summaries.
 - **Hive**: For offline data access.
 - **get_it**: For dependency injection.
+- **fp_dart**: Functional Programming
 - **Bloc & Cubit**: For state management.
 
 ## Installation
