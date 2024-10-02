@@ -38,7 +38,7 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/your-username/blog-app.git
-   cd Breadcrumbsai_blog_bloc_clean_architecture
+   cd blog_bloc_clean_architecture
 
 2. Add your AI key
 
