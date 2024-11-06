@@ -2,6 +2,7 @@ import 'package:ai_blog/features/blog/data/models/blog_model.dart';
 import 'package:hive/hive.dart';
 
 abstract interface class BlogLocalDataSource {
+
   void uploadLocalBlogs({required List<BlogModel> blogs});
 
   List<BlogModel> loadBlogs();
